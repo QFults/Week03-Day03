@@ -11,32 +11,29 @@
 <body>
   <form>
     <p>
-      <label for="title">title</label>
-      <input type="text" name="title" id="title">
+      <label for="name">name</label>
+      <input type="text" name="name" id="name">
     </p>
     <button id="search">Search</button>
   </form>
-  <div id="movie"></div>
+  <div id="character"></div>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
-  // eb74036d7a612a76db502348573190f3
+    // eb74036d7a612a76db502348573190f3
     document.getElementById('search').addEventListener('click', event => {
       event.preventDefault()
-      let title = document.getElementById('title').value
+      let name = document.getElementById('name').value
 
-      axios.get(`http://www.omdbapi.com/?t=${title}&apikey=trilogy`)
+      axios.get(`https://swapi.dev/api/people/?search=${name}`)
         .then(res => {
-          let movie = res.data
+          let character = res.data.results[0]
 
-          console.log(movie)
-
-          document.getElementById('movie').innerHTML = `
-        <h1>Title: ${movie.Title}</h1>
-        <p>Rating: ${movie.Rated}</p>
-        <p>Year: ${movie.Year}</p>
-        <p>Plot: ${movie.Plot}</p>
-        <img src="${movie.Poster}" alt="${movie.Title}">
-        `
+          console.log(character)
+          document.getElementById('character').innerHTML = `
+          <h1>Name: ${character.name}</h1>
+          <p>Birth Year: ${character.birth_year}</p>
+          <p>Mass: ${character.mass}</p>
+          `
         })
         .catch(err => console.error(err))
     })
